@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html ng-app="HeyMonitorApp">
+<head>
+    <meta charset="utf-8" />
+    <base href="@Url.Content("~/")" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a ui-sref="home" class="navbar-brand">Hey Monitor</a>
+            </div>
+            <div class="navbar-collapse collapse" ng-controller="indexController">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a ui-sref="home">Home</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" ng-if="authentication.isAuth">
+                    <li>
+                        <a ng-click="">Hello {{authentication.userName}}!</a>
+                    </li>
+                    <li><a ng-click="logOut()">Log off</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" ng-if="!authentication.isAuth">
+                    <li>
+                        <a id="registerLink" ui-sref="register">Register</a>
+                    </li>
+                    <li>
+                        <a id="loginLink" ui-sref="login">Log in</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-ui")
+    <script>
+        var app = angular.module('HeyMonitorApp', ['ui.router', 'LocalStorageModule']);
+        app.root = @Url.Content("~/");
+    </script>
+    @Scripts.Render("~/bundles/app")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
