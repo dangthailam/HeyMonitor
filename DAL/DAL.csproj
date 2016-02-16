@@ -85,6 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomIdentityRole.cs" />
+    <Compile Include="CustomRoleStore.cs" />
+    <Compile Include="CustomUserStore.cs" />
+    <Compile Include="Entities\CustomIdentityUserClaim.cs" />
+    <Compile Include="Entities\CustomIdentityUserLogin.cs" />
+    <Compile Include="Entities\CustomIdentityUserRole.cs" />
     <Compile Include="HeyMonitorContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />

@@ -14,15 +14,15 @@ namespace Service.User
     {
         private HeyMonitorContext _ctx;
 
-        private UserManager<ApplicationUser> _userManager;
+        private UserManager<ApplicationUser, long> _userManager;
 
         public UserService()
         {
             _ctx = new HeyMonitorContext();
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+            _userManager = new UserManager<ApplicationUser, long>(new CustomUserStore(_ctx));
         }
 
-        public async Task<IdentityResult> RegisterUser(UserDTO userDto)
+        public IdentityResult RegisterUser(UserDTO userDto)
         {
             var user = new ApplicationUser
             {
@@ -30,16 +30,16 @@ namespace Service.User
                 Email = userDto.Email
             };
 
-            var result = await _userManager.CreateAsync(user, userDto.Password);
+            var result = _userManager.CreateAsync(user, userDto.Password).Result;
 
             return result;
         }
 
-        public async Task<IdentityUser> FindUser(string userName, string password)
+        public async Task<UserDTO> FindUser(string userName, string password)
         {
-            IdentityUser user = await _userManager.FindAsync(userName, password);
+            ApplicationUser user = await _userManager.FindAsync(userName, password);
 
-            return user;
+            return new UserDTO(user);
         }
 
         public void Dispose()

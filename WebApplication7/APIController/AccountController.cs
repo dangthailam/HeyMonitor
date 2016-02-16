@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using DTO;
+using Microsoft.AspNet.Identity;
 using Service.User;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using WebApplication7.Models;
 
 namespace WebApplication7.APIController
 {
+    [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -24,14 +26,14 @@ namespace WebApplication7.APIController
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
+        public IHttpActionResult Register(AuthenticationUserModel userModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await _repo.RegisterUser(new DTO.UserDTO
+            IdentityResult result = _repo.RegisterUser(new UserDTO
             {
                 Email = userModel.Email,
                 Password = userModel.Password
